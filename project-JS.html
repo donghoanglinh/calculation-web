@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <style type="text/css">
+    body {
+      margin: auto;
+      width: 95%;
+      text-align: center;
+      background-color: rgb(255, 255, 204);
+    }
+    @media only screen and (max-width: 600px) {
+    h1 {
+      font-size: 300%;
+      color: blue;
+    }
+    /* CSS cho phần nhập dữ liệu */
+    #inputTable {
+      margin:  auto;
+      width: auto;
+    }
+    #inputTable th {
+      border: none;
+      width:  80px; 
+      text-align: left;
+    }
+    #inputTable td{
+      border: none;
+      text-align: left;
+      width:  auto;
+      background-color: "red";
+    } 
+    #inputTable input{
+      width:  200px;
+    } 
+    button {
+      margin:  10px;
+      font-weight:  bold;
+      color:  #F00;
+      padding:  10px;
+    }
+    /* CSS cho phần nhập hiện thị dữ liệu*/
+    #myTable {
+      width:  100%;
+    }
+    #myTable tr {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr;
+      grid-gap: 2px;
+      padding: 1px;
+    }
+    #myTable th {
+      border: 1px solid black;
+      text-align: center;
+      box-shadow: 2px 2px grey;
+      padding:  3px;
+      font-size: 110%;
+      color: ;
+    }
+    #myTable td {
+      border: 1px solid black;
+      text-align: center;
+      box-shadow: 2px 2px grey;
+    }
+  }
+   @media only screen and (min-width: 600px) {
+    h1 {
+      font-size: 300%;
+      color: rgb(255, 0, 102);
+    }
+    /* CSS cho phần nhập dữ liệu */
+    #inputTable {
+      margin:  auto;
+      width: auto;
+    }
+    #inputTable th {
+      border: none;
+      width:  80px; 
+      text-align: left;
+    }
+    #inputTable td{
+      border: none;
+      text-align: left;
+      width:  auto;
+      background-color: "red";
+    } 
+    #inputTable input{
+      width:  200px;
+    } 
+    button {
+      margin:  10px;
+      font-weight:  bold;
+      color:  #F00;
+      padding:  10px;
+    }
+    /* CSS cho phần nhập hiện thị dữ liệu*/
+    #myTable {
+      width:  100%;
+    }
+    #myTable tr {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr;
+      grid-gap: 2px;
+      padding: 1px;
+    }
+    #myTable th {
+      border: 1px solid black;
+      text-align: center;
+      box-shadow: 2px 2px grey;
+      padding:  3px;
+      font-size: 110%;
+      color: ;
+    }
+    #myTable td {
+      border: 1px solid black;
+      text-align: center;
+      box-shadow: 2px 2px grey;
+    }
+  }
+  </style>
+</head>
+  <body>
+<header>
+  <h1>Class Marksheet</h1>
+</header>
+<form>
+  <table id="inputTable">
+    <tr>
+      <th><label for="name">Họ Tên</label></th>
+      <td><input id="name" type="text"></td>
+    </tr>
+    <tr>
+      <th><label for="math_score">Điểm Toán</label></th>
+      <td><input id="math_score" type="text"></td>
+    </tr>
+    <tr>
+      <th><label for="physical_score">Điểm Lý</label></th>
+      <td><input id="physical_score" type="text"></td>
+    </tr>
+    <tr>
+      <th><label for="chemistry_score">Điểm Hóa</label></th>
+      <td><input id="chemistry_score" type="text"></td>
+    </tr>
+  </table>
+  <button id="inputData" type="button">Nhập Dữ Liệu</button>
+  <table id="myTable">
+    <tr>
+      <th>STT</th>
+      <th>Họ Tên</th>
+      <th>Toán</th>
+      <th>Lý</th>
+      <th>Hóa</th>
+      <th>Trung Bình</th>
+    </tr>
+  </table>
+  <button id="average" type="button">Tính điểm trung bình</button>
+  <button id="checkStudent" type="button">Xác định học sinh giỏi</button>
+</form>
+<script type="text/javascript">
+    // tạo biến form mẫu
+    var testScore =  {
+      name : "",
+      math : 0,
+      physical : 0,
+      chemistry : 0
+    };
+    var i = 0;
+    $(document).ready(function(){
+      $("#inputData").click(function(){
+
+    // gán giá trị vào biến
+
+        if($("#name").val() == "" || $("#math_score").val() == "" ||$("#physical_score").val() == "" ||$("#chemistry_score").val() == "") {
+          alert("Bạn phải nhập đầy đủ dữ liệu");
+        }
+        else {
+        testScore.name = $("#name").val();
+        testScore.math = $("#math_score").val();
+        testScore.physical = $("#physical_score").val();
+        testScore.chemistry = $("#chemistry_score").val();
+
+        i +=1;
+    // create table and insert value
+        $("#myTable").append(`<tr><td>${i}</td><td>${testScore.name}</td><td>${testScore.math}</td><td>${testScore.physical}</td><td>${testScore.chemistry}</td><td>?</td></tr>`);
+
+        $("#name").val("");
+        $("#math_score").val("");
+        $("#physical_score").val("");
+        $("#chemistry_score").val("");
+      };
+      });
+
+    // calculate average
+      $("#average").click(function(){
+        $("#myTable tbody tr").each((idx,elm)=>{
+          if(idx!=0){
+            var math = $(elm).find("td").eq(2).text();
+          var physical = $(elm).find("td").eq(3).text();
+          var chemistry = $(elm).find("td").eq(4).text();
+          var average = (Number(math) + Number(physical) + Number(chemistry))/3;
+          $(elm).find("td").eq(5).text(average.toFixed(1));
+          }
+          
+        });
+      })
+
+    // check good student
+      $("#checkStudent").click(function(){
+        $("#myTable tbody tr").each((idx,elm)=>{
+          var m = $(elm).find("td").eq(5).text();
+          if((idx!=0) && (m > 8)) {
+            $(elm).css("color","red");
+          };
+        });
+      });
+    });
+</script>
+</body>
+</html>
